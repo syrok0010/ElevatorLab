@@ -65,7 +65,6 @@ class BuildingUI extends JFrame implements ElevatorListener {
 
     @Override
     public void onElevatorStatusChange(int elevatorId, int floor, Elevator.ElevatorState state) {
-        System.out.println(elevatorId + " " + floor + " " + state);
         SwingUtilities.invokeLater(() -> {
             JPanel panel = elevatorPanels[elevatorId - 1];
             for (Component component : panel.getComponents()) {

@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class RequestGenerator implements ElevatorListener {
-    private static final int MaxRequests = 10;
+    private static final int MaxRequests = 50;
     private final Random rand = new Random();
     private final Building building;
 
@@ -13,7 +13,7 @@ public class RequestGenerator implements ElevatorListener {
         for (int i = 0; i < MaxRequests; i++) {
             building.requestElevator(rand.nextInt(10));
             try {
-                Thread.sleep(250);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

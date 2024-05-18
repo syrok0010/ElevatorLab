@@ -95,14 +95,12 @@ public class Elevator implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Elevator " + id + " has started");
         while (true) {
             Integer nextFloor;
             synchronized (this) {
                 while ((nextFloor = getNextFloor()) == null) {
                     try {
                         setCurrentState(ElevatorState.IDLE);
-                        System.out.println("Elevator " + id + " waits");
                         wait(); // Wait for new requests
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
