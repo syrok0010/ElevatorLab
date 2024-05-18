@@ -24,13 +24,13 @@ public class Elevator implements Runnable {
     public int topFloorRequest() {
         synchronized (requestQueue)
         {
-            return this.requestQueue.stream().mapToInt(e -> e.floor).max().orElse(Building.TopFloor);
+            return this.requestQueue.stream().mapToInt(e -> e.floor).max().orElse(Building.TOP_FLOOR);
         }
     }
 
     public int bottomFloorRequest() {
         synchronized (requestQueue) {
-            return this.requestQueue.stream().mapToInt(e -> e.floor).min().orElse(Building.BottomFloor);
+            return this.requestQueue.stream().mapToInt(e -> e.floor).min().orElse(Building.BOTTOM_FLOOR);
         }
     }
 
@@ -61,7 +61,7 @@ public class Elevator implements Runnable {
     public Elevator(int id) {
         this.id = id;
         setCurrentState(ElevatorState.IDLE);
-        setCurrentFloor(Building.BottomFloor);
+        setCurrentFloor(Building.BOTTOM_FLOOR);
         this.requestQueue = new ConcurrentLinkedQueue<>();
         this.listeners = new ArrayList<>();
     }

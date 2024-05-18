@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Building {
     protected final List<Elevator> elevators;
-    public static final int TopFloor = 9;
-    public static final int BottomFloor = 0;
+    public static final int TOP_FLOOR = 9;
+    public static final int BOTTOM_FLOOR = 0;
 
 
     public Building(int numberOfElevators) {

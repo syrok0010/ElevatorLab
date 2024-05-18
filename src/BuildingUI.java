@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class BuildingUI extends JFrame implements ElevatorListener {
+class BuildingUI extends JFrame implements ElevatorListener {
     private final Building building;
     private final JPanel[] elevatorPanels;
 
@@ -27,7 +27,7 @@ public class BuildingUI extends JFrame implements ElevatorListener {
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createTitledBorder("Elevator " + elevatorId));
         panel.setLayout(new GridLayout(10, 1));
-        for (int i = Building.TopFloor; i >= Building.BottomFloor; i--) {
+        for (int i = Building.TOP_FLOOR; i >= Building.BOTTOM_FLOOR; i--) {
             JLabel label = new JLabel("Floor " + i);
             label.setHorizontalAlignment(SwingConstants.CENTER);
             panel.add(label);
@@ -45,15 +45,16 @@ public class BuildingUI extends JFrame implements ElevatorListener {
         panel.add(label);
 
         JComboBox<Integer> floorComboBox = new JComboBox<>();
-        for (int i = Building.BottomFloor; i <= Building.TopFloor; i++) {
+        for (int i = Building.BOTTOM_FLOOR; i <= Building.TOP_FLOOR; i++) {
             floorComboBox.addItem(i);
         }
 
         JButton requestButton = new JButton("Request");
         requestButton.addActionListener(e -> {
-            if (floorComboBox.getSelectedItem() == null) return;
-            int floor = (int) floorComboBox.getSelectedItem();
-            building.requestElevator(floor);
+            Integer selectedFloor = (Integer) floorComboBox.getSelectedItem();
+            if (selectedFloor != null) {
+                building.requestElevator(selectedFloor);
+            }
         });
 
         panel.add(floorComboBox);
@@ -62,7 +63,6 @@ public class BuildingUI extends JFrame implements ElevatorListener {
         return panel;
     }
 
-
     @Override
     public void onElevatorStatusChange(int elevatorId, int floor, Elevator.ElevatorState state) {
         System.out.println(elevatorId + " " + floor + " " + state);
@@ -70,13 +70,11 @@ public class BuildingUI extends JFrame implements ElevatorListener {
             JPanel panel = elevatorPanels[elevatorId - 1];
             for (Component component : panel.getComponents()) {
                 if (component instanceof JLabel label) {
-                    if (label.getText().contains("Floor")) {
-                        label.setBackground(null);
-                        label.setOpaque(false);
-                    }
+                    label.setBackground(null);
+                    label.setOpaque(false);
                 }
             }
-            JLabel currentLabel = (JLabel) panel.getComponent(Building.TopFloor - floor);
+            JLabel currentLabel = (JLabel) panel.getComponent(Building.TOP_FLOOR - floor);
             currentLabel.setBackground(switch (state) {
                 case IDLE -> Color.RED;
                 case MOVING_UP -> Color.GREEN;
@@ -87,5 +85,6 @@ public class BuildingUI extends JFrame implements ElevatorListener {
     }
 
     @Override
-    public void personEntered(int elevatorId, int floor) {}
+    public void personEntered(int elevatorId, int floor) {
+    }
 }
